@@ -26,10 +26,20 @@ pipeline {
                 '''
             }
         }
+
         stage('Test') {
             steps {
-                sh "test -f build/index.html"
-                sh 'npm test'
+                sh '''
+                WORKSPACE=$(pwd)
+                /opt/homebrew/bin/podman run --rm \
+                    -v "$WORKSPACE:/workspace" \
+                    -w /workspace \
+                    docker.io/library/node:18-alpine \
+                    sh -c "
+                        test -f build/index.html
+                        npm test
+                    "
+                '''
             }
         }
     }
