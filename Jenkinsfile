@@ -37,7 +37,7 @@ pipeline {
                     docker.io/library/node:18-alpine \
                     sh -c "
                       test -f build/index.html
-                      npm test &
+                      npm test
                     "
                 '''
             }
